@@ -1,0 +1,51 @@
+services:
+  frontend:
+    build: ./node-server
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      - PORT=${PORT}
+      - POSTGRES_ENDPOINT=${POSTGRES_ENDPOINT}
+    env_file:
+      - .env.frontend.user
+    networks:
+      - inner
+      - outer
+    depends_on:
+      db:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+
+  backend:
+    build: ./backend
+    environment:
+      - POSTGRES_ENDPOINT=${POSTGRES_ENDPOINT}
+    env_file:
+      - .env.backend.user
+    networks:
+      - inner
+      - outer
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    build: ./postgres
+    env_file:
+      - .env.frontend.user
+      - .env.backend.user
+      - .env.postgres
+    networks:
+      inner:
+        aliases:
+          - ${POSTGRES_ALIAS}
+    volumes:
+      - ./postgres/data:/var/lib/postgresql
+  
+networks:
+  outer:
+    driver: bridge
+  inner:
+    driver: bridge
+    internal: true

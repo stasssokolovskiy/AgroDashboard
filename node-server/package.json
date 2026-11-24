@@ -1,0 +1,23 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cors": "^11.4.3",
+    "@fastify/http-proxy": "^11.6.9",
+    "@fastify/static": "^10.1.11",
+    "apache-arrow": "^21.2.0",
+    "fastify": "^5.12.8",
+    "postgres": "^4.1.1",
+    "superjson": "^2.2.6"
+  }
+}
